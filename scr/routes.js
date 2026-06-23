@@ -1,11 +1,28 @@
 const express = require("express");
 const { todos } = require("./data/memory")
 
+
 const router = express.Router()
 
-router.put('/todos', (req, res) => {
-    return res.status
-})
+router.put('/todos/:id', (req, res) => {
+    router.put('/todos/:id', (req, res) => {
+        const id = Number(req.params.id);
+        const { titulo, feito } = req.body;
+        const tarefa = todos.find(todo => todo.id === id);
+        // resto do código
+    });
+    if (!tarefa) {
+        return res.status(404).json({
+            mensagem: "Tarefa não encontrada"
+        });
+    }
+    tarefa.titulo = titulo;
+    tarefa.feito = feito;
+    return res.status(200).json({
+        mensagem: "Tarefa atualizada com sucesso",
+        tarefa
+    });
+});
 
 router.get('/todos', (req, res) => {
     return res.status(200).json({
@@ -21,7 +38,7 @@ router.post('/todos', (req, res) => {
     }
 
     const novaTarefa = {
-        id: new Date().toString(),
+        id: todos.length + 1,
         titulo,
         descricao,
         feito: false
@@ -34,5 +51,6 @@ router.post('/todos', (req, res) => {
         tarefaCriada: novaTarefa
     })
 })
+
 
 module.exports = router;
